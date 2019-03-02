@@ -3,9 +3,12 @@ from django.contrib.auth.decorators import login_required
 from . models import Result
 from django.utils import timezone
 from PIL import Image
-
 import numpy as np
 import cv2
+import torch
+from torch import nn
+import torch.nn.functional as F
+from torchvision import datasets, transforms
 
 # Create your views here.
 
@@ -26,16 +29,17 @@ def check(request):
             result.compound = request.POST['compound']
             result.detail = request.POST['detail'] 
             result.image = request.FILES['image']
-            img = Image.open(request.FILES['image'])
             result.pub_date = timezone.datetime.now()
             result.uploader = request.user
-            result.outputval = opencv(img)
+            result.save()
+            result.outputval = opencv(result.image.path)
             result.save()
             return redirect('/result/'+str(result.id))
         else:
             return render(request, 'results/check.html', {'error': 'Please fill in all fields'})
     else:
-        return render(request, 'results/check.html')
+        return render(request, 'results/compound.html')
+        #return render(request, 'results/check.html')
 
 
 @login_required
@@ -43,10 +47,16 @@ def result(request, result_id):
     result = get_object_or_404(Result, pk=result_id)
     return render(request, 'results/result.html', {'result': result})
 
-def opencv():
-    image = cv2.imread(result.image.url)
+def opencv(img_path):
+    image = cv2.imread(img_path)
     height = image.shape[0]
     width = image.shape[1]
     channels = image.shape[2]
     values = (" the height is %s , width is %s and number of channels is %s" % (height, width, channels)) 
     return values
+
+def mlmodel():
+    return "ml output"\
+
+def compoundA(request):
+    return render(request, 'results/compoundA.html')

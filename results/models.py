@@ -9,7 +9,7 @@ class Result(models.Model):
     medium = models.CharField(max_length=200)
     compound = models.CharField(max_length=200)
     detail = models.TextField()
-    outputval = models.TextField(default='rsult not calculated')
+    outputval = models.TextField(default='rsult not calculated', null=True, blank=True)
     image = models.ImageField(upload_to='images/')
     uploader = models.ForeignKey(User, on_delete=models.CASCADE) # will be changed to not delete in update
     
