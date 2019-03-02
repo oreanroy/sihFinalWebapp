@@ -13,9 +13,22 @@ class Result(models.Model):
     image = models.ImageField(upload_to='images/')
     uploader = models.ForeignKey(User, on_delete=models.CASCADE) # will be changed to not delete in update
     
+class Compounda(models.Model):
+    title = models.CharField(max_length=200)
+    pub_date = models.DateField()
+    compound = models.CharField(max_length=200)
+    acetone = models.IntegerField()
+    cyclohexane = models.IntegerField()
+    acetate = models.IntegerField()
+    methanol = models.IntegerField()
+    detailcom = models.TextField()
+    outputval = models.TextField(default='rsult not calculated', null=True, blank=True)
+    image = models.ImageField(upload_to='images/')
+    uploader = models.ForeignKey(User, on_delete=models.CASCADE) # will be changed to not delete in update
+    
+def date_pretty(self):
+    return self.pub_date.strftime('%b %e, %Y')
 
-    def date_pretty(self):
-        return self.pub_date.strftime('%b %e, %Y')
+def __str__(self):
+    return self.title
 
-    def __str__(self):
-        return self.title

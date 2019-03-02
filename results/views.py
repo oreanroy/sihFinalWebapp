@@ -1,14 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from . models import Result
+from . models import Result, Compounda
 from django.utils import timezone
-from PIL import Image
-import numpy as np
-import cv2
-import torch
-from torch import nn
-import torch.nn.functional as F
-from torchvision import datasets, transforms
+#from torch import nn
+#import torch.nn.functional as F
+#from torchvision import datasets, transforms
 
 # Create your views here.
 
@@ -41,6 +37,47 @@ def check(request):
         return render(request, 'results/compound.html')
         #return render(request, 'results/check.html')
 
+@login_required
+def compoundone(request):
+    if request.method == 'POST':
+        if request.POST['title'] and request.POST['acetone'] and request.POST['compound'] and request.FILES['image']:
+            compounda = Compounda()
+            result = Result()
+            compounda.title = request.POST['title'] #filling up the result as well as the compound db
+            result.title = request.POST['title']
+            compounda.compound = request.POST['compound']
+            
+            compounda.acetone = request.POST['acetone']
+            aceval = request.POST['acetone']
+            compounda.cyclohexane = request.POST['cyclohex']
+
+            cycloval = request.POST['cyclohex']
+            compounda.acetate = request.POST['eacetate']
+            ethval = request.POST['eacetate']
+            compounda.methanol = request.POST['methanol']
+            methval = request.POST['methanol']
+
+            compounda.detailcom = request.POST['detail'] 
+            result.detail = request.POST['detail'] 
+            compounda.image = request.FILES['image']
+            result.image = request.FILES['image']
+            compounda.pub_date = timezone.datetime.now()
+            result.pub_date = timezone.datetime.now()
+            compounda.uploader = request.user
+            result.uploader = request.user
+            compounda.save()
+            result.save()
+            compounda.outputval = checkCompoundA(aceval, cycloval, ethval, methval)
+            result.outputval = checkCompoundA(aceval, cycloval, ethval, methval)
+            compounda.save()
+            result.save()
+            return redirect('/result/'+str(result.id))
+        else:
+            return render(request, 'results/compoundone.html', {'error': 'Please fill in all fields'})
+    else:
+        return render(request, 'results/compoundone.html')
+        #return render(request, 'results/check.html')
+
 
 @login_required
 def result(request, result_id):
@@ -55,8 +92,18 @@ def opencv(img_path):
     values = (" the height is %s , width is %s and number of channels is %s" % (height, width, channels)) 
     return values
 
-def mlmodel():
-    return "ml output"\
-
-def compoundA(request):
-    return render(request, 'results/compoundA.html')
+def checkCompoundA(ace=0, cyclo=0, ethyl=0, meth=0):
+    ace = int(ace)
+    cyclo = int(cyclo)
+    ethyl = int(ethyl)
+    meth = int(meth)
+    acecheck = ace >= 0 and ace <= 7000
+    cyclocheck =  cyclo >=0 and cyclo <=3880
+    ethcheck = ethyl >=0 and ethyl <=5000
+    methcheck = meth >=0 and meth <=3000
+    flag = True
+    tup = []
+    if acecheck and cyclocheck and ethcheck and methcheck:
+        return "Yess all your values are in given range"
+    else:
+        return "some of the values is out of the range"
