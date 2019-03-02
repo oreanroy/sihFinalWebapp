@@ -10,10 +10,12 @@
 <br/>
 {% for result in results.all %}
 <h4>{{ result.title }}</h4>
-
-<img src="{{ result.image.url }}" class="img-fluid">
-<h3>Output of model {{ result.outputval }} </h3>
-
+<h4>calculated on {{result.pub_date}}</h4>
+<h4>calculated by {{result.uploader}}</h4>
+<a href="result.pdf.url"> See the pdf</a>
+<h3>Output of the model analysis {{ result.outputval }} </h3>
+<br/>
+<br/>
 {% endfor %}
 
 {% endblock %}

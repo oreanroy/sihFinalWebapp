@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from . models import Result, Compounda
+from . models import Result, Compounda, Compoundb
 from django.utils import timezone
+import camelot
 #from torch import nn
 #import torch.nn.functional as F
 #from torchvision import datasets, transforms
@@ -12,6 +13,11 @@ from django.utils import timezone
 def main(request):
     results = Result.objects # this has to be improved to only show results of that user
     return render(request, 'results/main.html', {'results': results})
+
+@login_required
+def newhome(request):
+    results = Compoundb.objects
+    return render(request, 'results/newmain.html', {'results': results})
 
 
 @login_required
@@ -80,9 +86,34 @@ def compoundone(request):
 
 
 @login_required
+def compoundtwo(request):
+    if request.method == 'POST':
+        if request.FILES['pdf']:
+            compoundtwo = Compoundb()
+            compoundtwo.pub_date = timezone.datetime.now()
+            compoundtwo.uploader = request.user
+            compoundtwo.pdf = request.FILES['pdf']
+            compoundtwo.save()
+            compoundtwo.outputval = camel(compoundtwo.pdf.path)
+            compoundtwo.save()
+            return redirect('/result/newresults/'+str(compoundtwo.id))
+        else:
+            return render(request, 'results/compoundtwo.html', {'error': 'Please fill in all fields'})
+    else:
+        return render(request, 'results/compoundtwo.html')
+        #return render(request, 'results/check.html')
+
+
+@login_required
 def result(request, result_id):
     result = get_object_or_404(Result, pk=result_id)
     return render(request, 'results/result.html', {'result': result})
+
+@login_required
+def newresult(request, newresult_id):
+    result = get_object_or_404(Compoundb, pk=newresult_id)
+    return render(request, 'results/newresult.html', {'result': result})
+
 
 def opencv(img_path):
     image = cv2.imread(img_path)
@@ -107,3 +138,10 @@ def checkCompoundA(ace=0, cyclo=0, ethyl=0, meth=0):
         return "Yess all your values are in given range"
     else:
         return "some of the values is out of the range"
+
+def camel(pdf_path):
+    tables = camelot.read_pdf(pdf_path)
+    if tables:
+        return " its working"
+    else:
+        return " uable to read the pdf"

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+
+    <h1>Run model on a new compound</h1>
+    <h4 style="color: red;"> {{error}}</h4>
+    <br/>
+    <form method="POST" action="{% url 'compoundtwo' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        
+        <h4>Upload PDF:</h4> <br/>
+        <br/>
+        Chose pdf output:
+        <br/>
+        <input type="file" name="pdf" class="" value="chose file 1"> <br/>
+        <br/>
+        <br/>
+        Chose word document:
+        <br/>
+        <input type="file" name="word" class="" value="chose file 2"> <br/>
+        <br/>
+        <input type="submit" value="Check" class="btn btn-primary"/>
+        <br/>
+    </br>
+
+    </form>
+
+
+{% endblock %}
