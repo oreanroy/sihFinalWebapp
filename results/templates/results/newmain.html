@@ -1,21 +1,57 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+    .mycard{
+        margin: 2%;
+        background-color: #e3e7ed;
+    }
+    .mycardin{
+        padding: 4%;
+        background-color: #e3e7ed;
+    }
+    .myrow{
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .pass-button{
+        background-color: green
+    }
+    .fail-button{
+        background-color: red
+    }
+    body{
+        background: linear-gradient(150deg, white , #cfd1d3, #343a40);
+    }
+    .my-btn{
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
 <br/>
-<h1>Home!! this is where all results uptill now will be shown.</h1>
+<h1 class="text-center">All results uptill now calculated by you!!</h1>
 <br/>
 <a href="{% url 'check' %}">
-    <button class="btn btn-primary btn-lg btn-block">Calculate on new Compound</button>
+    <button class="btn btn-primary btn-block my-btn col-6 col-sm-8 col-md-5 col-lg-5 col-xs-10 my-btn">Calculate on new Compound</button>
 </a>
 <br/>
-{% for result in results.all %}
-<h4>{{ result.title }}</h4>
-<h4>calculated on {{result.pub_date}}</h4>
-<h4>calculated by {{result.uploader}}</h4>
-<a href="result.pdf.url"> See the pdf</a>
-<h3>Output of the model analysis {{ result.outputval }} </h3>
-<br/>
-<br/>
-{% endfor %}
+<div class="row myrow col-12">
+    {% for result in results.all %}
+    <div class="col-3 mycard">
+        <div class="card mycardin" >
+            <h5>Output of the model analysis {{ result.outputval }} </h5>
+            <p>calculated on {{result.pub_date}}</p>
+            <p>calculated by {{result.uploader}}</p>
+            <a href="result.pdf.url"> See the pdf</a>
+            {% if result.boolval %}
+            <button type="button" class="btn btn-primary pass-button" >Passed</button>
+            {% else %}
+            <button type="button" class="btn btn-primary fail-button" >Failed</button>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
 
 {% endblock %}

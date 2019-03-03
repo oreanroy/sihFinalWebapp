@@ -32,8 +32,7 @@ class Compoundb(models.Model):
     outputval = models.TextField(default='rsult not calculated', null=True, blank=True)
     pdf = models.FileField(upload_to='files/')
     uploader = models.ForeignKey(User, on_delete=models.CASCADE) # will be changed to not delete in update
-
-    
+    boolval = models.BooleanField(default=True)
 
 
 def date_pretty(self):

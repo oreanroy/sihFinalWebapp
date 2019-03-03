@@ -95,6 +95,7 @@ def compoundtwo(request):
             compoundtwo.pdf = request.FILES['pdf']
             compoundtwo.save()
             compoundtwo.outputval = camel(compoundtwo.pdf.path)
+            compoundtwo.boolval = camel(compoundtwo.pdf.path) == "its working"
             compoundtwo.save()
             return redirect('/result/newresults/'+str(compoundtwo.id))
         else:
@@ -142,6 +143,6 @@ def checkCompoundA(ace=0, cyclo=0, ethyl=0, meth=0):
 def camel(pdf_path):
     tables = camelot.read_pdf(pdf_path)
     if tables:
-        return " its working"
+        return "its working"
     else:
-        return " uable to read the pdf"
+        return "uable to read the pdf"
