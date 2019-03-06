@@ -1,8 +1,6 @@
 # sihFinalWebapp
 the final webapp
 
-### A django based web app with postgres db. The functionality and dependecies are listed below.
-
 ## Functions 
 
 ### to read a doc file and extract important information from it. The test cases and the range of values
