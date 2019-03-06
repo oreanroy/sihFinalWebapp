@@ -1,22 +1,22 @@
 # sihFinalWebapp
 the final webapp
 
-## A django based web app with postgres db. The functionality and dependecies are listed below.
+### A django based web app with postgres db. The functionality and dependecies are listed below.
 
-# Functions 
+## Functions 
 
-## to read a doc file and extract important information from it. The test cases and the range of values
-## Now load multiple pdf file and verify if the results are in given range or not.
+### to read a doc file and extract important information from it. The test cases and the range of values
+### Now load multiple pdf file and verify if the results are in given range or not.
 
 
 This is the complete web app the api can be modeled over it 
 
 
-## dependencies 
-### postgresql 
-### opencv, numpy, djngolatest, python3, pip3, psypog, pillow 
-### pandas, torch, camelot
-### etc check it out during installation
+### dependencies 
+#### postgresql 
+#### opencv, numpy, djngolatest, python3, pip3, psypog, pillow 
+#### pandas, torch, camelot
+#### etc check it out during installation
 
 The steps to understand this app is below
 
