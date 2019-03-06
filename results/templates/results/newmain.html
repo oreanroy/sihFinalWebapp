@@ -225,6 +225,27 @@ var ctx = document.getElementById("{{result.id}}").getContext('2d');
 	
 
 </script>
+
+<script>
+
+    data: [20, 10]
+    data: [{
+        x: 10,
+        y: 20
+    }, {
+        x: 15,
+        y: 10
+    }]
+
+    var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: options
+    });
+
+
+</script>
+
     {% endfor %}
 </div>
 
