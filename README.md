@@ -242,6 +242,19 @@ virtualenv xthvision
 		
 		MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 		MEDIA_URL = '/media/' 
+		
+		// this aprt has been added from another video
+		 STATIC_URL = '/sttaic/'
+		 
+		 STATICFILES_DIRS = [
+		 	os.path.join(BASE_DIR, "staic"),
+			'/projects/newmusic/newmusic/static', #newmuisc is name of app
+		 ]
+		
+		
+		
+		
+		
 
 
 // now rendering the cdetails of product once user creates a product
